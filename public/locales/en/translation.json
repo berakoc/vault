@@ -1,3 +1,16 @@
 {
-    "layout": "Layout"
+    "layout": {
+        "navLink": {
+            "dashboardLabel": "Dashboard",
+            "passwordsLabel": "Passwords",
+            "securityLabel": "Security",
+            "settingsLabel": "Settings",
+            "notificationsLabel": "Notifications"
+        }
+    },
+    "pageNotFound": {
+        "firstVerse": "The page you are looking for,",
+        "secondVerse": "Has vanished long before.",
+        "goToHomePage": "Go to Home Page"
+    }
 }

@@ -1,12 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Layout from './components/Layout';
 import { homeUrl, rootUrl } from './common/routeUrls';
+import OutletLayout from './components/OutletLayout';
+import PageNotFound from './pages/PageNotFound';
 
 const router = createBrowserRouter([
   {
     path: rootUrl,
-    element: <Layout />,
-    errorElement: 'Error',
+    element: <OutletLayout />,
+    errorElement: <PageNotFound />,
     children: [
       {
         path: homeUrl,
