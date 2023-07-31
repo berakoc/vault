@@ -12,5 +12,11 @@
         "firstVerse": "The page you are looking for,",
         "secondVerse": "Has vanished long before.",
         "goToHomePage": "Go to Home Page"
+    },
+    "dashboard": {
+        "pageMeta": {
+            "title": "Dashboard",
+            "description": "You can see your overall Vault status in this page."
+        }
     }
 }

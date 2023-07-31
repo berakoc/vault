@@ -1,17 +1,17 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { homeUrl, rootUrl } from './common/routeUrls';
+import { dashboardUrl } from './common/routeUrls';
 import OutletLayout from './components/OutletLayout';
 import PageNotFound from './pages/PageNotFound';
+import Dashboard from './pages/Dashboard';
 
 const router = createBrowserRouter([
   {
-    path: rootUrl,
     element: <OutletLayout />,
     errorElement: <PageNotFound />,
     children: [
       {
-        path: homeUrl,
-        element: 'Home',
+        path: dashboardUrl,
+        element: <Dashboard />,
       },
     ],
   },

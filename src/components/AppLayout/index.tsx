@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import {
   AppShell,
@@ -14,15 +14,18 @@ import {
   Indicator,
   Flex,
   Box,
-  Popover,
   UnstyledButton,
+  Title,
+  useMantineColorScheme,
 } from '@mantine/core';
 import {
-  IconBell, IconChevronDown,
+  IconBell, IconMoon, IconSun,
 } from '@tabler/icons-react';
 import useStyles from './hooks/useStyles';
 import AppNavbar from '../AppNavbar';
 import { notificationsUrl } from '../../common/routeUrls';
+import useStore from '../../store';
+import { pageMetaSelector } from '../../store/selectors/layout';
 
 interface AppLayoutProps {
   children: JSX.Element
@@ -30,16 +33,25 @@ interface AppLayoutProps {
 
 function AppLayout({ children }: AppLayoutProps) {
   const navigate = useNavigate();
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const theme = useMantineTheme();
+  const pageMeta = useStore(pageMetaSelector);
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
+
+  const ThemeIcon = colorScheme === 'dark' ? IconMoon : IconSun;
 
   const onNotificationsClick = () => {
     navigate(notificationsUrl);
   };
 
+  const onThemeIconClick = () => {
+    toggleColorScheme();
+  };
+
   return (
     <AppShell
+      padding={0}
       styles={{
         main: {
           background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
@@ -81,29 +93,22 @@ function AppLayout({ children }: AppLayoutProps) {
                       </Indicator>
                     </Avatar>
                   </UnstyledButton>
+                  <UnstyledButton onClick={onThemeIconClick}>
+                    <Avatar color="gray.3" variant="outline">
+                      <ThemeIcon color={theme.colors.dark[9]} size={20} />
+                    </Avatar>
+                  </UnstyledButton>
                   <Divider color={theme.colors.gray[2]} orientation="vertical" />
                 </Group>
               </MediaQuery>
               <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-                <Popover offset={18}>
-                  <Popover.Target>
-                    <UnstyledButton>
-                      <Group>
-                        <Avatar src="https://randomuser.me/api/portraits/men/18.jpg" radius="xl" color="indigo" />
-                        <Box>
-                          <Text lh="1" fz="md" fw="600">John Doe</Text>
-                          <Text fz="xs" fw="500" color="gray.6">Software Engineer</Text>
-                        </Box>
-                        <IconChevronDown color={theme.colors.gray[5]} size={20} />
-                      </Group>
-                    </UnstyledButton>
-                  </Popover.Target>
-                  <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-                    <Popover.Dropdown>
-                      <Link to="/home">Go to Home page</Link>
-                    </Popover.Dropdown>
-                  </MediaQuery>
-                </Popover>
+                <Group>
+                  <Avatar src="https://randomuser.me/api/portraits/men/18.jpg" radius="xl" color="indigo" />
+                  <Box>
+                    <Text lh="1" fz="md" fw="600">John Doe</Text>
+                    <Text fz="xs" fw="500" color="gray.6">Software Engineer</Text>
+                  </Box>
+                </Group>
               </MediaQuery>
               <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
                 <UnstyledButton>
@@ -117,7 +122,13 @@ function AppLayout({ children }: AppLayoutProps) {
         </Header>
       )}
     >
-      {children}
+      <Box p="xl" bg="white" style={{ borderBottom: `1px solid ${theme.colors.gray[3]}` }}>
+        <Title>{pageMeta.title}</Title>
+        <Text>{pageMeta.description}</Text>
+      </Box>
+      <Box p="1em">
+        {children}
+      </Box>
     </AppShell>
   );
 }
